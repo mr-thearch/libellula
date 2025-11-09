@@ -2,10 +2,10 @@
 <html lang="it">
 <head>
     <meta charset="utf-8" />
-    <title>Libellula – ZX Spectrum (demo interna)</title>
+    <title>Libellula – ZX Spectrum (demo)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- JSSpeccy 3: assicurarsi che il percorso punti a jsspeccy.js -->
+    <!-- JSSpeccy 3 -->
     <script src="jsspeccy/jsspeccy.js"></script>
 
     <style>
@@ -31,12 +31,12 @@
             z-index: 10;
         }
 
-        header span.titolo {
+        header .titolo {
             font-weight: 600;
             color: #eee;
         }
 
-        header span.note {
+        header .note {
             opacity: 0.7;
             margin-left: 12px;
             font-size: 11px;
@@ -51,53 +51,113 @@
         }
 
         #jsspeccy {
-            /* lo zoom principale lo gestisce l’opzione JS; qui basta che il div si adatti */
             display: inline-block;
+        }
+
+        .comandi {
+            background: #111;
+            color: #eee;
+            padding: 8px 10px;
+            font-size: 11px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.7);
+        }
+
+        .comandi-titolo {
+            text-align: center;
+            font-weight: 600;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .righe-comandi {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 16px;
+        }
+
+        .riga-comando {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .keycap {
+            min-width: 18px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #222;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .descr {
+            font-size: 11px;
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <span class="titolo">Libellula – ZX Spectrum (Giuseppe Dimauro, 1985)</span>
-        <span class="note">Cliccare sull’area del gioco per attivare eventuale audio.</span>
-    </header>
+<header>
+    <span class="titolo">Libellula – ZX Spectrum (Giuseppe Dimauro, 1985)</span>
+    <span class="note">Su PC usa i tasti 3–9,0. Su mobile è consigliata la visualizzazione come demo.</span>
+</header>
 
-    <div class="contenitore-emulatore">
-        <div id="jsspeccy"></div>
+<div class="contenitore-emulatore">
+    <div id="jsspeccy"></div>
+</div>
+
+<div class="comandi">
+    <div class="comandi-titolo">Comandi di gioco (tastiera numerica 0–9)</div>
+    <div class="righe-comandi">
+        <div class="riga-comando">
+            <span class="keycap">5</span><span class="keycap">6</span><span class="keycap">7</span><span class="keycap">8</span>
+            <span class="descr">movimento elicottero</span>
+        </div>
+        <div class="riga-comando">
+            <span class="keycap">4</span>
+            <span class="descr">getta il gancio</span>
+        </div>
+        <div class="riga-comando">
+            <span class="keycap">6</span>
+            <span class="descr">cala il gancio</span>
+        </div>
+        <div class="riga-comando">
+            <span class="keycap">7</span>
+            <span class="descr">alza il gancio</span>
+        </div>
+        <div class="riga-comando">
+            <span class="keycap">3</span>
+            <span class="descr">ritira il gancio</span>
+        </div>
+        <div class="riga-comando">
+            <span class="keycap">9</span>
+            <span class="descr">turbo</span>
+        </div>
+        <div class="riga-comando">
+            <span class="keycap">0</span>
+            <span class="descr">fuoco</span>
+        </div>
     </div>
+</div>
 
-    <script>
-        // Inizializzazione dell’emulatore.
-        // Opzioni disponibili documentate nel README di JSSpeccy:
-        // autoStart, autoLoadTapes, tapeAutoLoadMode, machine, openUrl, zoom, sandbox, uiEnabled, ecc. :contentReference[oaicite:2]{index=2}
-
-        //JSSpeccy(document.getElementById('jsspeccy'), {
-        //    machine: 48,               // ZX Spectrum 48K
-        //    zoom: 2,                   // ingrandimento (1 = 100%, 2 = 200%, ecc.)
-        //    autoStart: true,           // parte subito (ma l’audio richiede comunque un click dell’utente)
-        //    autoLoadTapes: true,       // fa automaticamente LOAD "" / Tape Loader
-        //    tapeAutoLoadMode: 'default',
-        //    openUrl: ['tapes/libellula.tzx'], // percorso relativo al sito IIS
-        //    sandbox: true,             // blocca UI per impedire apertura di altri file
-        //    uiEnabled: false,          // nasconde toolbar/menu dell’emulatore
-        //    keyboardEnabled: true,     // la tastiera funziona normalmente
-        //    tapeTrapsEnabled: true     // caricamento rapido del nastro
-        //});
-		
-		JSSpeccy(document.getElementById('jsspeccy'), {
+<script>
+    // Inizializzazione dell’emulatore con snapshot
+    JSSpeccy(document.getElementById('jsspeccy'), {
         machine: 48,
         zoom: 2,
         autoStart: true,
-        autoLoadTapes: false,              // niente LOAD "" automatici, non servono
+        autoLoadTapes: false,
         openUrl: ['snapshots/libellula.sna'],
         sandbox: true,
         uiEnabled: false,
         keyboardEnabled: true,
-        tapeTrapsEnabled: true             // irrilevante, non usiamo il nastro
+        tapeTrapsEnabled: true
     });
-		
-    </script>
+</script>
 
 </body>
 </html>
