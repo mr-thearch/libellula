@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8" />
+    <title>Libellula – ZX Spectrum (demo interna)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- JSSpeccy 3: assicurarsi che il percorso punti a jsspeccy.js -->
+    <script src="jsspeccy/jsspeccy.js"></script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #000;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            color: #ccc;
+            padding: 6px 12px;
+            font-size: 13px;
+            background: #111;
+            box-shadow: 0 0 8px rgba(0,0,0,0.7);
+            z-index: 10;
+        }
+
+        header span.titolo {
+            font-weight: 600;
+            color: #eee;
+        }
+
+        header span.note {
+            opacity: 0.7;
+            margin-left: 12px;
+            font-size: 11px;
+        }
+
+        .contenitore-emulatore {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        #jsspeccy {
+            /* lo zoom principale lo gestisce l’opzione JS; qui basta che il div si adatti */
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="titolo">Libellula – ZX Spectrum (Giuseppe Dimauro, 1985)</span>
+        <span class="note">Cliccare sull’area del gioco per attivare eventuale audio.</span>
+    </header>
+
+    <div class="contenitore-emulatore">
+        <div id="jsspeccy"></div>
+    </div>
+
+    <script>
+        // Inizializzazione dell’emulatore.
+        // Opzioni disponibili documentate nel README di JSSpeccy:
+        // autoStart, autoLoadTapes, tapeAutoLoadMode, machine, openUrl, zoom, sandbox, uiEnabled, ecc. :contentReference[oaicite:2]{index=2}
+
+        //JSSpeccy(document.getElementById('jsspeccy'), {
+        //    machine: 48,               // ZX Spectrum 48K
+        //    zoom: 2,                   // ingrandimento (1 = 100%, 2 = 200%, ecc.)
+        //    autoStart: true,           // parte subito (ma l’audio richiede comunque un click dell’utente)
+        //    autoLoadTapes: true,       // fa automaticamente LOAD "" / Tape Loader
+        //    tapeAutoLoadMode: 'default',
+        //    openUrl: ['tapes/libellula.tzx'], // percorso relativo al sito IIS
+        //    sandbox: true,             // blocca UI per impedire apertura di altri file
+        //    uiEnabled: false,          // nasconde toolbar/menu dell’emulatore
+        //    keyboardEnabled: true,     // la tastiera funziona normalmente
+        //    tapeTrapsEnabled: true     // caricamento rapido del nastro
+        //});
+		
+		JSSpeccy(document.getElementById('jsspeccy'), {
+        machine: 48,
+        zoom: 2,
+        autoStart: true,
+        autoLoadTapes: false,              // niente LOAD "" automatici, non servono
+        openUrl: ['snapshots/libellula.sna'],
+        sandbox: true,
+        uiEnabled: false,
+        keyboardEnabled: true,
+        tapeTrapsEnabled: true             // irrilevante, non usiamo il nastro
+    });
+		
+    </script>
+
+</body>
+</html>
