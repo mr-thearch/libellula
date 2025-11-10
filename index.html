@@ -214,12 +214,50 @@
 			overflow: hidden;
 		}
 		
+        #touch-start-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: none;
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+        font-size: 20px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        }
+
+        @media (max-width: 1024px) {
+            #touch-start-overlay {
+                display: flex;
+            }
+        }
+
+        #stage {
+            flex: 1 1 auto;
+            position: relative;
+            max-height: 70vh;
+            overflow: hidden;
+        }
+
+        .pannello-comandi {
+            flex: 0 0 auto;
+        }
+
     </style>
 
 <div id="stage">
   <canvas id="game-layer-3d" width="798" height="600"></canvas>
   <canvas id="game-layer" width="266" height="200" style="display:none" class="pixelated"></canvas>
 </div>
+
+<div id="touch-start-overlay">
+  Tocca per iniziare
+</div>
+
 <p>
 
 
@@ -450,6 +488,33 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!params.has("snapshot")) {
     const base = window.location.href.split("?")[0];
     window.location.href = base + "?snapshot=libellula.z80";
+  }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("touch-start-overlay");
+
+  // Mostra overlay solo su Safari/iOS
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  if (isSafari && overlay) {
+    overlay.style.display = "flex";
+    overlay.addEventListener("click", async () => {
+      overlay.style.display = "none";
+
+      // Safari sblocca audio/WebAssembly solo dopo gesto utente
+      try {
+        if (window.razeAudioCtx && window.razeAudioCtx.state === "suspended") {
+          await window.razeAudioCtx.resume();
+        }
+      } catch(e) {}
+
+      // In alcuni build raze serve riattivare la funzione start
+      if (window.razeInit) {
+        window.razeInit();
+      }
+    });
   }
 });
 </script>
