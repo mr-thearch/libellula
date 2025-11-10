@@ -11,271 +11,252 @@
 <style>#forkongithub a{background:#000;color:#fff;text-decoration:none;font-family:arial,sans-serif;text-align:center;font-weight:bold;padding:5px 40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}#forkongithub a:hover{background:#c11;color:#fff;}#forkongithub a::before,#forkongithub a::after{content:"";width:100%;display:block;position:absolute;top:1px;left:0;height:1px;background:#fff;}#forkongithub a::after{bottom:1px;top:auto;}@media screen and (min-width:800px){#forkongithub{position:absolute;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;z-index:9999;}#forkongithub a{width:200px;position:absolute;top:60px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);box-shadow:4px 4px 10px rgba(0,0,0,0.8);}}</style>
 
 <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            background: #000;
-            color: #eee;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            overflow: hidden;
-        }
+  html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      color: #eee;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+      overflow-y: auto;      /* consenti lo scroll verticale su mobile */
+  }
 
-        body {
-            display: flex;
-            flex-direction: column;
-        }
+  body {
+      display: flex;
+      flex-direction: column;
+  }
 
-        header {
-            padding: 6px 12px;
-            font-size: 13px;
-            background: #111;
-            box-shadow: 0 0 8px rgba(0,0,0,0.7);
-            z-index: 10;
-        }
+  /* opzionale: lo lasci pure, ma non viene usato perché non hai <header> */
+  header {
+      padding: 6px 12px;
+      font-size: 13px;
+      background: #111;
+      box-shadow: 0 0 8px rgba(0,0,0,0.7);
+      z-index: 10;
+  }
 
-        header .titolo {
-            font-weight: 600;
-        }
+  header .titolo {
+      font-weight: 600;
+  }
 
-        header .note {
-            opacity: 0.75;
-            margin-left: 12px;
-            font-size: 11px;
-        }
+  header .note {
+      opacity: 0.75;
+      margin-left: 12px;
+      font-size: 11px;
+  }
 
-        .contenitore-emulatore {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: stretch;
-            background: #000;
-        }
+  /* overlay "Tocca per iniziare" */
+  #touch-start-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: none;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      font-size: 20px;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+  }
 
-        .contenitore-emulatore iframe {
-            border: none;
-            width: 100%;
-            height: 100%;
-        }
+  /* contenitore emulatore (solo canvas, niente iframe) */
+  #stage {
+      position: relative;
+      flex: 0 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+      padding: 4px 0;
+      overflow: hidden;
+  }
 
-        .pannello-comandi {
-            background: #111;
-            padding: 8px 10px 10px 10px;
-            font-size: 11px;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.7);
-        }
+  /* canvas principale: si adatta alla larghezza, con limite in altezza */
+  #game-layer-3d {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 60vh;   /* ~60% dello schermo per l’emulatore */
+  }
 
-        .pannello-comandi-titolo {
-            text-align: center;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
+  /* canvas secondario (nascosto) */
+  #game-layer {
+      display: none;
+  }
 
-        .pannello-comandi-layout {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            justify-content: center;
-        }
+  /* pannello comandi in fondo alla pagina */
+  .pannello-comandi {
+      flex: 0 0 auto;
+      background: #111;
+      padding: 8px 10px 10px 10px;
+      font-size: 11px;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.7);
+      overflow: visible;
+  }
 
-        /* Joystick a croce */
-        .joy-panel {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+  .pannello-comandi-titolo {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 6px;
+  }
 
-        .joy-title {
-            font-size: 10px;
-            opacity: 0.8;
-            margin-bottom: 4px;
-        }
+  .pannello-comandi-layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+  }
 
-        .joy-grid {
-            display: grid;
-            grid-template-columns: repeat(3, auto);
-            grid-template-rows: repeat(3, auto);
-            gap: 4px;
-        }
+  /* Joystick a croce */
+  .joy-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
 
-        .joy-btn {
-            min-width: 32px;
-            min-height: 32px;
-            border-radius: 6px;
-            border: 1px solid #444;
-            background: #222;
-            color: #eee;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+  .joy-title {
+      font-size: 10px;
+      opacity: 0.8;
+      margin-bottom: 4px;
+  }
 
-        @media (max-width: 768px) {
-            .pannello-comandi .joy-btn {
-                min-width: 64px;
-                min-height: 64px;
-                font-size: 28px;
-            }
+  .joy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      grid-template-rows: repeat(3, auto);
+      gap: 4px;
+  }
 
-            .pannello-comandi .action-btn,
-            .pannello-comandi .hook-btn {
-                min-width: 90px;
-                padding: 12px 16px;
-                font-size: 15px;
-            }
+  .joy-btn {
+      min-width: 32px;
+      min-height: 32px;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background: #222;
+      color: #eee;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
 
-            .pannello-comandi-layout {
-                gap: 24px;
-            }
-        }
+  .joy-btn-label {
+      font-size: 9px;
+      margin-top: 2px;
+      opacity: 0.8;
+      text-align: center;
+  }
 
-        .joy-btn-label {
-            font-size: 9px;
-            margin-top: 2px;
-            opacity: 0.8;
-            text-align: center;
-        }
+  /* Fire / Turbo */
+  .fire-turbo-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 120px;
+  }
 
-        /* Fire / Turbo */
-        .fire-turbo-panel {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 120px;
-        }
+  .fire-turbo-title {
+      font-size: 10px;
+      opacity: 0.8;
+      margin-bottom: 4px;
+  }
 
-        .fire-turbo-title {
-            font-size: 10px;
-            opacity: 0.8;
-            margin-bottom: 4px;
-        }
+  .fire-turbo-buttons {
+      display: flex;
+      gap: 8px;
+  }
 
-        .fire-turbo-buttons {
-            display: flex;
-            gap: 8px;
-        }
+  .action-btn {
+      flex: 1;
+      min-width: 70px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #222;
+      color: #eee;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+  }
 
-        .action-btn {
-            flex: 1;
-            min-width: 70px;
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: 1px solid #555;
-            background: #222;
-            color: #eee;
-            font-size: 12px;
-            font-weight: 600;
-            text-align: center;
-        }
+  /* Hook */
+  .hook-panel {
+      border-radius: 8px;
+      border: 1px solid #444;
+      padding: 6px 8px 8px 8px;
+      min-width: 140px;
+  }
 
-        /* Hook */
-        .hook-panel {
-            border-radius: 8px;
-            border: 1px solid #444;
-            padding: 6px 8px 8px 8px;
-            min-width: 140px;
-        }
+  .hook-title {
+      font-size: 10px;
+      font-weight: 600;
+      opacity: 0.9;
+      margin-bottom: 4px;
+      text-align: center;
+  }
 
-        .hook-title {
-            font-size: 10px;
-            font-weight: 600;
-            opacity: 0.9;
-            margin-bottom: 4px;
-            text-align: center;
-        }
+  .hook-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      gap: 6px 8px;
+      justify-content: center;
+  }
 
-        .hook-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, auto);
-            gap: 6px 8px;
-            justify-content: center;
-        }
+  .hook-btn {
+      min-width: 48px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #222;
+      color: #eee;
+      font-size: 11px;
+      text-align: center;
+  }
 
-        .hook-btn {
-            min-width: 48px;
-            padding: 4px 6px;
-            border-radius: 6px;
-            border: 1px solid #555;
-            background: #222;
-            color: #eee;
-            font-size: 11px;
-            text-align: center;
-        }
+  .nota-mobile {
+      text-align: center;
+      font-size: 10px;
+      opacity: 0.7;
+      margin-top: 6px;
+  }
 
-        .nota-mobile {
-            text-align: center;
-            font-size: 10px;
-            opacity: 0.7;
-            margin-top: 6px;
-        }
-		
-		#controls {
-			height: 0;
-			overflow: hidden;
-		}
-		
-        #touch-start-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: none;
-        background: rgba(0, 0, 0, 0.85);
-        color: #fff;
-        font-size: 20px;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        }        
+  /* nascondi completamente la tastiera e i pulsanti originali di RAZE */
+  #controls {
+      display: none;
+  }
 
-       /* contenitore emulatore */
+  /* ingrandisci la pulsantiera su schermi piccoli (iPhone) */
+  @media (max-width: 768px) {
+      .pannello-comandi .joy-btn {
+          min-width: 64px;
+          min-height: 64px;
+          font-size: 28px;
+      }
 
-        #stage {
-            position: relative;
-            flex: 1 1 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #000;
-            overflow: hidden;
-        }
+      .pannello-comandi .action-btn,
+      .pannello-comandi .hook-btn {
+          min-width: 90px;
+          padding: 12px 16px;
+          font-size: 15px;
+      }
 
-        /* canvas principale */
-        #game-layer-3d {
-            width: auto;
-            height: 65vh;        /* Limite su mobile */
-            max-height: 65vh;    /* evita che “esploda” in verticale */
-            aspect-ratio: 4/3;   /* mantiene proporzioni circa corrette */
-            display: block;
-        }
+      .pannello-comandi-layout {
+          gap: 24px;
+      }
+  }
 
-        /* canvas secondario (nascosto) */
-        #game-layer {
-            display: none;
-        }
+  /* su schermi grandi l’emulatore può occupare più altezza */
+  @media (min-width: 1024px) {
+      #game-layer-3d {
+          max-height: 80vh;
+      }
+  }
+</style>
 
-        /* pannello comandi */
-        .pannello-comandi {
-            flex: 0 0 auto;
-            background: #111;
-            padding: 8px 10px 10px 10px;
-            font-size: 11px;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.7);
-            overflow: visible;
-        }
-
-        /* su schermi grandi: l’emulatore può riempire di più */
-        @media (min-width: 1024px) {
-            #game-layer-3d {
-                height: 80vh;
-                max-height: 80vh;
-            }
-        }
-
-    </style>
 
 <div id="stage">
   <canvas id="game-layer-3d" width="798" height="600"></canvas>
