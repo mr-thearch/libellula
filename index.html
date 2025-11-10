@@ -73,7 +73,7 @@
         align-items: center;
         background: #000;
         padding: 4px 0;
-        overflow: visible;      /* niente crop */
+        overflow: visible;
     }
 
     /* canvas principale: si adatta alla larghezza, altezza automatica */
@@ -113,7 +113,7 @@
       justify-content: center;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 300px) {
         .pannello-comandi-layout {
             flex-direction: column;
             align-items: center;
@@ -159,25 +159,13 @@
       opacity: 0.8;
       text-align: center;
   }
-
-  /* Fire / Turbo */
-  .fire-turbo-panel {
+  
+  .extra-commands-panel {
       display: flex;
       flex-direction: column;
       align-items: center;
       min-width: 120px;
-  }
-
-  .fire-turbo-title {
-      font-size: 10px;
-      opacity: 0.8;
-      margin-bottom: 4px;
-  }
-
-  .fire-turbo-buttons {
-      display: flex;
-      gap: 8px;
-  }
+  }  
 
   .action-btn {
       flex: 1;
@@ -192,38 +180,11 @@
       text-align: center;
   }
 
-  /* Hook */
-  .hook-panel {
-      border-radius: 8px;
-      border: 1px solid #444;
-      padding: 6px 8px 8px 8px;
-      min-width: 140px;
-  }
-
-  .hook-title {
-      font-size: 10px;
-      font-weight: 600;
-      opacity: 0.9;
-      margin-bottom: 4px;
-      text-align: center;
-  }
-
-  .hook-buttons {
+  .extra-commands-buttons {
       display: grid;
       grid-template-columns: repeat(2, auto);
       gap: 6px 8px;
       justify-content: center;
-  }
-
-  .hook-btn {
-      min-width: 48px;
-      padding: 4px 6px;
-      border-radius: 6px;
-      border: 1px solid #555;
-      background: #222;
-      color: #eee;
-      font-size: 11px;
-      text-align: center;
   }
 
   .nota-mobile {
@@ -239,15 +200,15 @@
   }
 
   /* ingrandisci la pulsantiera su schermi piccoli (iPhone) */
-    @media (max-width: 768px) {
+    @media (max-width: 300px) {
         .pannello-comandi .joy-btn {
             min-width: 52px;
             min-height: 52px;
             font-size: 22px;
         }
 
-        .pannello-comandi .action-btn,
-        .pannello-comandi .hook-btn {
+        .pannello-comandi .action-btn
+		{
             min-width: 80px;
             padding: 8px 12px;
             font-size: 13px;
@@ -364,16 +325,12 @@
   </div>
 </div>
 
-<div class="pannello-comandi">
-    <div class="pannello-comandi-titolo">Comandi di Libellula</div>
-
+<div class="pannello-comandi">    
     <div class="pannello-comandi-layout">
 
         <!-- Joystick / movimento -->
         <div class="joy-panel">
-            <div class="joy-title">
-                Movimento elicottero
-                <!-- QUI puoi specificare i tasti reali usati, es. "mappa su 5–6–7–8" -->
+            <div class="joy-title">                                
             </div>
             <div class="joy-grid">
                 <div></div>
@@ -401,33 +358,18 @@
                 <div></div>
             </div>
         </div>
-
-        <!-- Fire / Turbo -->
-        <div class="fire-turbo-panel">
-            <div class="fire-turbo-title">
-                Azioni principali
-                <!-- QUI puoi annotare i tasti reali, es. "Fire = 0, Turbo = 9" -->
-            </div>
-            <div class="fire-turbo-buttons">
+        
+        <div class="extra-commands-panel">            
+            <div class="extra-commands-buttons">
                 <div class="action-btn" id="btn-fire">Fire</div>
                 <div class="action-btn" id="btn-turbo">Turbo</div>
-            </div>
+				<div class="action-btn" id="btn-hook-on">Hook On</div>
+				<div class="action-btn" id="btn-hook-off">Hook Off</div>
+				<div class="action-btn" id="btn-hook-up">Hook Up</div>
+				<div class="action-btn" id="btn-hook-down">Hook Down</div>
+            </div>				
         </div>
-
-        <!-- Hook -->
-        <div class="hook-panel">
-            <div class="hook-title">
-                Hook
-                <!-- QUI puoi annotare la mappatura esatta, es. "On = 4, Up = 7, ecc." -->
-            </div>
-            <div class="hook-buttons">
-                <div class="hook-btn" id="btn-hook-on">On</div>
-                <div class="hook-btn" id="btn-hook-off">Off</div>
-                <div class="hook-btn" id="btn-hook-up">Up</div>
-                <div class="hook-btn" id="btn-hook-down">Down</div>
-            </div>
-        </div>
-
+		
     </div>
 
 
