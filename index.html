@@ -18,6 +18,7 @@
             background: #000;
             color: #eee;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            overflow: hidden;
         }
 
         body {
@@ -228,23 +229,50 @@
         align-items: center;
         justify-content: center;
         z-index: 1000;
-        }
+        }        
 
-        @media (max-width: 1024px) {
-            #touch-start-overlay {
-                display: flex;
-            }
-        }
+       /* contenitore emulatore */
 
         #stage {
-            flex: 1 1 auto;
             position: relative;
-            max-height: 70vh;
+            flex: 1 1 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
             overflow: hidden;
         }
 
+        /* canvas principale */
+        #game-layer-3d {
+            width: auto;
+            height: 65vh;        /* Limite su mobile */
+            max-height: 65vh;    /* evita che “esploda” in verticale */
+            aspect-ratio: 4/3;   /* mantiene proporzioni circa corrette */
+            display: block;
+        }
+
+        /* canvas secondario (nascosto) */
+        #game-layer {
+            display: none;
+        }
+
+        /* pannello comandi */
         .pannello-comandi {
             flex: 0 0 auto;
+            background: #111;
+            padding: 8px 10px 10px 10px;
+            font-size: 11px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.7);
+            overflow: visible;
+        }
+
+        /* su schermi grandi: l’emulatore può riempire di più */
+        @media (min-width: 1024px) {
+            #game-layer-3d {
+                height: 80vh;
+                max-height: 80vh;
+            }
         }
 
     </style>
