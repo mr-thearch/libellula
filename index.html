@@ -441,4 +441,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Se non è specificato un parametro snapshot, usa quello di default
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has("snapshot")) {
+    const base = window.location.href.split("?")[0];
+    window.location.href = base + "?snapshot=libellula.z80";
+  }
+});
+</script>
+
 </body>
