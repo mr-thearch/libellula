@@ -70,6 +70,7 @@
     margin: 0 auto !important;
     padding: 0 !important;
     overflow: visible !important;
+	height: auto !important;
 }
 
 #game-layer-3d {
@@ -214,6 +215,19 @@
         }
     }
   
+  #controls {
+	  display: none !important;
+	  height: 0 !important;
+	  margin: 0 !important;
+	  padding: 0 !important;
+	  overflow: hidden !important;
+	}
+
+	/* Assicurarsi che il pannello comandi sia attaccato allo stage */
+	.pannello-comandi {
+	  margin-top: 0 !important;
+	}
+  
 </style>
 
 
@@ -222,13 +236,58 @@
   <canvas id="game-layer" width="266" height="200" style="display:none" class="pixelated"></canvas>
 </div>
 
+<p>
+
 <div id="touch-start-overlay">
   Tocca per iniziare
 </div>
 
-<p>
+<div class="pannello-comandi">    
+    <div class="pannello-comandi-layout">
 
+        <!-- Joystick / movimento -->
+        <div class="joy-panel">
+            <div class="joy-title">                                
+            </div>
+            <div class="joy-grid">
+                <div></div>
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                    <div class="joy-btn" id="btn-up">▲</div>
+                    <div class="joy-btn-label">Up</div>
+                </div>
+                <div></div>
 
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                    <div class="joy-btn" id="btn-left">◀</div>
+                    <div class="joy-btn-label">Left</div>
+                </div>
+                <div></div>
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                    <div class="joy-btn" id="btn-right">▶</div>
+                    <div class="joy-btn-label">Right</div>
+                </div>
+
+                <div></div>
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                    <div class="joy-btn" id="btn-down">▼</div>
+                    <div class="joy-btn-label">Down</div>
+                </div>
+                <div></div>
+            </div>
+        </div>
+        
+        <div class="extra-commands-panel">            
+            <div class="extra-commands-buttons">
+                <div class="action-btn" id="btn-fire">Fire</div>
+                <div class="action-btn" id="btn-turbo">Turbo</div>
+				<div class="action-btn" id="btn-hook-on">Hook On</div>
+				<div class="action-btn" id="btn-hook-off">Hook Off</div>
+				<div class="action-btn" id="btn-hook-up">Hook Up</div>
+				<div class="action-btn" id="btn-hook-down">Hook Down</div>
+            </div>				
+        </div>
+		
+    </div>
 
 <div id="controls"  >
   <div id="keyboard">
@@ -319,54 +378,6 @@
       <canvas id="joy-fire" width="300" height="300" style="left: 500px; top: 100px"></div>
   </div>
 </div>
-
-<div class="pannello-comandi">    
-    <div class="pannello-comandi-layout">
-
-        <!-- Joystick / movimento -->
-        <div class="joy-panel">
-            <div class="joy-title">                                
-            </div>
-            <div class="joy-grid">
-                <div></div>
-                <div style="display:flex; flex-direction:column; align-items:center;">
-                    <div class="joy-btn" id="btn-up">▲</div>
-                    <div class="joy-btn-label">Up</div>
-                </div>
-                <div></div>
-
-                <div style="display:flex; flex-direction:column; align-items:center;">
-                    <div class="joy-btn" id="btn-left">◀</div>
-                    <div class="joy-btn-label">Left</div>
-                </div>
-                <div></div>
-                <div style="display:flex; flex-direction:column; align-items:center;">
-                    <div class="joy-btn" id="btn-right">▶</div>
-                    <div class="joy-btn-label">Right</div>
-                </div>
-
-                <div></div>
-                <div style="display:flex; flex-direction:column; align-items:center;">
-                    <div class="joy-btn" id="btn-down">▼</div>
-                    <div class="joy-btn-label">Down</div>
-                </div>
-                <div></div>
-            </div>
-        </div>
-        
-        <div class="extra-commands-panel">            
-            <div class="extra-commands-buttons">
-                <div class="action-btn" id="btn-fire">Fire</div>
-                <div class="action-btn" id="btn-turbo">Turbo</div>
-				<div class="action-btn" id="btn-hook-on">Hook On</div>
-				<div class="action-btn" id="btn-hook-off">Hook Off</div>
-				<div class="action-btn" id="btn-hook-up">Hook Up</div>
-				<div class="action-btn" id="btn-hook-down">Hook Down</div>
-            </div>				
-        </div>
-		
-    </div>
-
 
 
 <script type="module" src="./raze.js"></script>
