@@ -23,8 +23,7 @@
   }
 
   body {
-      display: flex;
-      flex-direction: column;
+      display: block;
   }
 
   /* opzionale: lo lasci pure, ma non viene usato perché non hai <header> */
@@ -66,24 +65,21 @@
   /* contenitore emulatore (solo canvas, niente iframe) */
   /* contenitore emulatore: area fissa alta ~60% dello schermo */
     #stage {
-        position: relative;
-        flex: 0 0 auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #000;
-        padding: 4px 0;
-        overflow: visible;
-    }
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
 
-    /* canvas principale: si adatta alla larghezza, altezza automatica */
-    #game-layer-3d {
-        display: block;
-        width: 100%;
-        height: auto;
-        max-width: 800px;       /* opzionale: limite su desktop */
-        margin: 0 auto;
-    }
+#game-layer-3d {
+    display: block !important;
+    width: 100% !important;      /* stessa larghezza dello schermo */
+    max-width: 100% !important;
+    height: auto !important;     /* altezza proporzionale */
+    margin: 0 auto !important;
+    transform: none !important;  /* annulla eventuali scale/zoom di raze.css */
+}
 
   /* canvas secondario (nascosto) */
   #game-layer {
@@ -207,8 +203,7 @@
             font-size: 22px;
         }
 
-        .pannello-comandi .action-btn
-		{
+        .pannello-comandi .action-btn {
             min-width: 80px;
             padding: 8px 12px;
             font-size: 13px;
