@@ -64,24 +64,26 @@
   }
 
   /* contenitore emulatore (solo canvas, niente iframe) */
-  #stage {
-      position: relative;
-      flex: 0 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #000;
-      padding: 4px 0;
-      overflow: hidden;
-  }
+  /* contenitore emulatore: area fissa alta ~60% dello schermo */
+    #stage {
+        position: relative;
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        padding: 4px 0;
+        overflow: visible;      /* niente crop */
+    }
 
-  /* canvas principale: si adatta alla larghezza, con limite in altezza */
-  #game-layer-3d {
-      display: block;
-      width: 100%;
-      height: auto;
-      max-height: 60vh;   /* ~60% dello schermo per l’emulatore */
-  }
+    /* canvas principale: si adatta alla larghezza, altezza automatica */
+    #game-layer-3d {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 800px;       /* opzionale: limite su desktop */
+        margin: 0 auto;
+    }
 
   /* canvas secondario (nascosto) */
   #game-layer {
@@ -110,6 +112,13 @@
       gap: 16px;
       justify-content: center;
   }
+
+  @media (max-width: 768px) {
+        .pannello-comandi-layout {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
 
   /* Joystick a croce */
   .joy-panel {
@@ -230,31 +239,25 @@
   }
 
   /* ingrandisci la pulsantiera su schermi piccoli (iPhone) */
-  @media (max-width: 768px) {
-      .pannello-comandi .joy-btn {
-          min-width: 64px;
-          min-height: 64px;
-          font-size: 28px;
-      }
+    @media (max-width: 768px) {
+        .pannello-comandi .joy-btn {
+            min-width: 52px;
+            min-height: 52px;
+            font-size: 22px;
+        }
 
-      .pannello-comandi .action-btn,
-      .pannello-comandi .hook-btn {
-          min-width: 90px;
-          padding: 12px 16px;
-          font-size: 15px;
-      }
+        .pannello-comandi .action-btn,
+        .pannello-comandi .hook-btn {
+            min-width: 80px;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
 
-      .pannello-comandi-layout {
-          gap: 24px;
-      }
-  }
-
-  /* su schermi grandi l’emulatore può occupare più altezza */
-  @media (min-width: 1024px) {
-      #game-layer-3d {
-          max-height: 80vh;
-      }
-  }
+        .pannello-comandi-layout {
+            gap: 16px;
+        }
+    }
+  
 </style>
 
 
